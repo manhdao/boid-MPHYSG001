@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plt
 from matplotlib import animation
 import random
+plt.rcParams['animation.ffmpeg_path'] ='D:\\ffmpeg\\bin\\ffmpeg.exe'
 
 # Deliberately terrible code for teaching purposes
 boids_x=[random.uniform(-450,50.0) for x in range(50)]
@@ -41,10 +42,13 @@ scatter=axes.scatter(boids[0],boids[1])
 
 def animate(frame):
    update_boids(boids)
-   scatter.set_offsets(zip(boids[0],boids[1]))
+   boid_zip = list(zip(boids[0],boids[1]))
+   scatter.set_offsets(boid_zip)
 
 
 anim = animation.FuncAnimation(figure, animate, frames=200, interval=50)
+
+#mywriter = animation.FFMpegWriter()
 
 if __name__ == "__main__":
 	plt.show()
