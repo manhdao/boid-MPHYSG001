@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 from matplotlib import animation
 import random
-plt.rcParams['animation.ffmpeg_path'] ='D:\\ffmpeg\\bin\\ffmpeg.exe'
+#plt.rcParams['animation.ffmpeg_path'] ='D:\\ffmpeg\\bin\\ffmpeg.exe'
 
 # Deliberately terrible code for teaching purposes
 boids_x=[random.uniform(-450,50.0) for x in range(50)]
