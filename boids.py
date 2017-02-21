@@ -58,8 +58,8 @@ def update_boids(boids):
     velocity_if_close_x[:,:][formations_far] =0
     velocity_if_close_y = np.copy(velocity_difference_y)
     velocity_if_close_y[:,:][formations_far] =0
-    xvs -= np.mean(velocity_difference_x) * speed_formation_strength
-    yvs -= np.mean(velocity_difference_y) * speed_formation_strength
+    xvs -= np.mean(velocity_if_close_x, axis=0) * speed_formation_strength
+    yvs -= np.mean(velocity_if_close_y, axis=0) * speed_formation_strength
 
                 
     # Move according to velocities
