@@ -2,22 +2,44 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 import numpy as np
 import random
+import yaml
 
-boid_count = 50
-fly_middle_strength = 0.01
-speed_formation_strength = 0.125
-limit_x = [-450.0, 50.0]
-limit_y = [300.0,600.0]
-limit_velo_x = [0,10.0]
-limit_velo_y = [-20.0,20.0]
-nearby_distance = 100
-formation_distance = 10000
+with open('config.yaml', 'rb') as f:
+    conf = yaml.load(f.read())    # load the config file
+
+flock_params = conf['flock_params']
+boid_params = conf['boid_params']
+animation_params = conf['animation_params']
+
+#boid_params
+min_x_position = boid_params['min_x_position']
+max_x_position= boid_params['max_x_position']
+min_y_position= boid_params['min_y_position']
+max_y_position = boid_params['max_y_position']
+min_x_velocity = boid_params['min_x_velocity']
+max_x_velocity = boid_params['max_x_velocity']
+min_y_velocity = boid_params['min_y_velocity']
+max_y_velocity = boid_params['max_y_velocity']
+
+#flock_params
+boid_count = flock_params['boid_count']
+fly_middle_strength = flock_params['fly_middle_strength']
+nearby_distance = flock_params['nearby_distance']
+formation_distance = flock_params['formation_distance']
+speed_formation_strength = flock_params['speed_formation_strength']
+
+#aniation params
+axes_min = animation_params['axes_min']
+axes_max = animation_params['axes_max']
+frames = animation_params['frames']
+interval = animation_params['interval']
+
 
 # Deliberately terrible code for teaching purposes
-boids_x = (np.ones(boid_count)*(limit_x[0]) + np.random.rand(1, boid_count)*(limit_x[1]-limit_x[0]))
-boids_y = (np.ones(boid_count)*(limit_y[0]) + np.random.rand(1, boid_count)*(limit_y[1]-limit_y[0]))
-boid_x_velocities=(np.ones(boid_count)*(limit_velo_x[0]) + np.random.rand(1, boid_count)*(limit_velo_x[1]-limit_velo_x[0]))
-boid_y_velocities=(np.ones(boid_count)*(limit_velo_y[0]) + np.random.rand(1, boid_count)*(limit_velo_y[1]-limit_velo_y[0]))
+boids_x = (np.ones(boid_count)*min_x_position + np.random.rand(1, boid_count)*(max_x_position-min_x_position))
+boids_y = (np.ones(boid_count)*min_y_position + np.random.rand(1, boid_count)*(max_y_position-min_y_position))
+boid_x_velocities=(np.ones(boid_count)*min_x_velocity + np.random.rand(1, boid_count)*(max_x_velocity-min_x_velocity))
+boid_y_velocities=(np.ones(boid_count)*min_y_velocity + np.random.rand(1, boid_count)*(max_y_velocity-min_y_velocity))
 
 boids = np.concatenate((boids_x,boids_y,boid_x_velocities,boid_y_velocities),axis = 0)
 
@@ -67,7 +89,7 @@ def update_boids(boids):
     ys += yvs
 
 figure=plt.figure()
-axes=plt.axes(xlim=(-500,1500), ylim=(-500,1500))
+axes=plt.axes(xlim=(axes_min,axes_max), ylim=(axes_min,axes_max))
 scatter=axes.scatter(boids[0],boids[1])
 
 def animate(frame):
@@ -76,7 +98,7 @@ def animate(frame):
    scatter.set_offsets(boid_zip)
 
 
-anim = animation.FuncAnimation(figure, animate, frames=200, interval=50)
+anim = animation.FuncAnimation(figure, animate, frames=frames, interval=interval)
 
 if __name__ == "__main__":
 	plt.show()
