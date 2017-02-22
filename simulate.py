@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 from matplotlib import animation
-from model import Flock
+from boids import update_boids
 import yaml
 
 

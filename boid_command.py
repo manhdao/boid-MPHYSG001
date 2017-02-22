@@ -3,6 +3,7 @@ from argparse import ArgumentParser
 from boids import update_boids
 from simulate import simulate
 import yaml
+import numpy as np
 
 
 with open('config.yaml', 'rb') as f:
@@ -28,6 +29,7 @@ fly_middle_strength = flock_params['fly_middle_strength']
 nearby_distance = flock_params['nearby_distance']
 formation_distance = flock_params['formation_distance']
 speed_formation_strength = flock_params['speed_formation_strength']
+
 
 #generate boids
 boids_x = (np.ones(boid_count)*min_x_position + np.random.rand(1, boid_count)*(max_x_position-min_x_position))
