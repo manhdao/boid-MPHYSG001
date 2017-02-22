@@ -10,16 +10,6 @@ with open('config.yaml', 'rb') as f:
 flock_params = conf['flock_params']
 boid_params = conf['boid_params']
 
-#boid_params
-min_x_position = boid_params['min_x_position']
-max_x_position= boid_params['max_x_position']
-min_y_position= boid_params['min_y_position']
-max_y_position = boid_params['max_y_position']
-min_x_velocity = boid_params['min_x_velocity']
-max_x_velocity = boid_params['max_x_velocity']
-min_y_velocity = boid_params['min_y_velocity']
-max_y_velocity = boid_params['max_y_velocity']
-
 #flock_params
 boid_count = flock_params['boid_count']
 fly_middle_strength = flock_params['fly_middle_strength']
