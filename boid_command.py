@@ -32,18 +32,17 @@ speed_formation_strength = flock_params['speed_formation_strength']
 
 
 #generate boids
-boids_x = (np.ones(boid_count)*min_x_position + np.random.rand(1, boid_count)*(max_x_position-min_x_position))
-boids_y = (np.ones(boid_count)*min_y_position + np.random.rand(1, boid_count)*(max_y_position-min_y_position))
-boid_x_velocities=(np.ones(boid_count)*min_x_velocity + np.random.rand(1, boid_count)*(max_x_velocity-min_x_velocity))
-boid_y_velocities=(np.ones(boid_count)*min_y_velocity + np.random.rand(1, boid_count)*(max_y_velocity-min_y_velocity))
+positions = np.array([min_x_position,min_y_position])[:,np.newaxis] + \
+			np.random.rand(2, boid_count)*(np.array([max_x_position,max_y_position]) - np.array([min_x_position,min_y_position]))[:,np.newaxis]
+velocities = np.array([min_x_velocity,min_y_velocity])[:,np.newaxis] + \
+			np.random.rand(2, boid_count)*(np.array([max_x_velocity,max_y_velocity]) - np.array([min_x_velocity,min_y_velocity]))[:,np.newaxis]
 
-boids = np.concatenate((boids_x,boids_y,boid_x_velocities,boid_y_velocities),axis = 0)
 
 if __name__ == "__main__":
 
 
 
-	simulate(animation_params, boids)
+	simulate(animation_params, positions, velocities)
 
 
 
