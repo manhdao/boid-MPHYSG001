@@ -19,6 +19,8 @@ speed_formation_strength = flock_params['speed_formation_strength']
 
 
 def fly_middle(positions, velocities):
+	positions=np.asarray(positions)
+	velocities=np.asarray(velocities)
 
 	# Fly towards the middle
 	middle = np.mean(positions, 1)
@@ -27,6 +29,8 @@ def fly_middle(positions, velocities):
 
 
 def fly_away(positions, velocities):
+	positions=np.asarray(positions)
+	velocities=np.asarray(velocities)
 
 	# Fly away from nearby boids
 	separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
@@ -43,6 +47,8 @@ def fly_away(positions, velocities):
 
 
 def match_speed(positions, velocities):
+	positions=np.asarray(positions)
+	velocities=np.asarray(velocities)
 
 	# Try to match speed with nearby boids
 	separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
