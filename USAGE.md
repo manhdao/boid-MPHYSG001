@@ -76,7 +76,7 @@ There are 3 options matching 3 functions: fly_middle, fly_away, match_speed
 
 ### <a id="Class Flock"></a>Class Flock
 
-In this class, many helper and @staticmethod functions are used to be able to test with fixed numbers. The test are exclusively written for those functions
+In this class, many helper and @staticmethod functions, which don't take any argument from class, are used to be perform maths operations. Thanks to the helper functions, the maths operations can be tested with fixed numbers.
 
 #### <a id="Fly Middle"></a>Fly Middle
 
@@ -109,13 +109,13 @@ anim = animation.FuncAnimation(figure, animate, frames=animation_params['frames'
 
 ## <a id="Output"></a>3. Output
 
-When you create a Flock instance, the initial positions and velocities of the boids are random.
+When you create a Flock instance, the initial positions and velocities of the boids are randomized using np.rand. Each individual method can be called separately to modify the positions and velocities.
 
 ## <a id="Tests"></a>4. Tests
 
 Fixture files are used to record the initial positions and velocities, and the results after each individual method modifies them.
 
-In tests, the "before" records are called and pass through the methods again, and are compared to "after" records.
+In tests, the "before" records are called and pass through the helper methods again, and are compared to "after" records. The test are explicitly written for the helper functions.
 
 2 arbitrary numbers from the 2 set of array are picked out for the actual assert_equal
 ```

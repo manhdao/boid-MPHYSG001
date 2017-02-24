@@ -11,7 +11,7 @@ flock_params = conf['flock_params']
 boid_params = conf['boid_params']
 animation_params = conf['animation_params']
 
-def test_initialize_flock():
+def test_initialize_flock_helper():
 	"""Test shape of array and whether the values are in range"""
 
 	test_flock = Flock(flock_params, boid_params)
@@ -22,7 +22,7 @@ def test_initialize_flock():
 	assert_true(test_flock.velocities[0,10] >= 0)
 
 
-def test_fly_middle():
+def test_fly_middle_helper():
 	"""Test the fly_middle function"""
 
 	boid_data=yaml.load(open(
@@ -41,7 +41,7 @@ def test_fly_middle():
 	assert_equal(np.asarray(boid_data['after'])[3,20],after[3,20])
 
 
-def test_fly_away():
+def test_fly_away_helper():
 	"""Test the fly_away function"""
 
 	boid_data=yaml.load(open(
@@ -58,7 +58,7 @@ def test_fly_away():
 	assert_equal(np.asarray(boid_data['after'])[2,3],after[2,3])
 
 
-def test_match_speed():
+def test_match_speed_helper():
 	"""Test the match_speed function"""
 
 	boid_data=yaml.load(open(
