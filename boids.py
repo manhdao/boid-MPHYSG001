@@ -25,16 +25,19 @@ class Flock(object):
 		np.random.rand(2, self.boid_count)*(upper_vel_limit - lower_vel_limit)[:,np.newaxis]
 
 
-	#I define helper functions so that Flock can call fly_middle or fly_away if need to
+	"""I define helper functions so that Flock can call fly_middle or fly_away if need to"""
 
 	def fly_middle(self):
+		"""Fly towards the middle"""
+
 		fly_middle_helper(self.positions,self.velocities,self.fly_middle_strength)
 
 	
 	@staticmethod
 	def fly_middle_helper(positions, velocities, fly_middle_strength):
+		positions=np.asarray(positions)
+		velocities=np.asarray(velocities)
 
-		# Fly towards the middle
 		middle = np.mean(positions, 1)
 		direction_to_middle = positions - middle[:,np.newaxis]
 		velocities -= direction_to_middle * fly_middle_strength
@@ -42,6 +45,8 @@ class Flock(object):
 
 
 	def fly_away(self):
+		"""Fly away from nearby boids"""
+
 		fly_away_helper(self.positions, self.velocities, self.nearby_distance)
 
 	
@@ -50,7 +55,6 @@ class Flock(object):
 		positions=np.asarray(positions)
 		velocities=np.asarray(velocities)
 
-		# Fly away from nearby boids
 		separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
 		distances = separations * separations
 		sum_distances = np.sum(distances, 0)
@@ -65,6 +69,8 @@ class Flock(object):
 
 
 	def match_speed(self):
+		"""Try to match speed with nearby boids"""
+
 		match_speed_helper(self.positions, self.velocities, 
 						self.formation_distance, self.speed_formation_strength)
 
@@ -74,7 +80,6 @@ class Flock(object):
 		positions=np.asarray(positions)
 		velocities=np.asarray(velocities)
 
-		# Try to match speed with nearby boids
 		separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
 		distances = separations * separations
 		sum_distances = np.sum(distances, 0)
@@ -93,11 +98,12 @@ class Flock(object):
 
 
 	def update_boids(self):
-		self.update_bodis_helper(self.positions, self.velocities, 
+		self.update_boids_helper(self.positions, self.velocities, 
 							self.fly_middle_strength, self.nearby_distance, 
 							self.formation_distance, self.speed_formation_strength)
 		
-
+	
+	@staticmethod
 	def update_boids_helper(positions, velocities, 
 					fly_middle_strength, nearby_distance, formation_distance, speed_formation_strength):
 		Flock.fly_middle_helper(positions, velocities, fly_middle_strength)

@@ -1,19 +1,19 @@
 from matplotlib import pyplot as plt
 from matplotlib import animation
-from boids import update_boids
-import yaml
+from boids import Flock
 
 
-def simulate(animation_params, positions, velocities):
+def simulate(animation_params, flock_params, boid_params):
+    flock = Flock(flock_params, boid_params)
     axes_min, axes_max = animation_params['axes_min'], animation_params['axes_max']
 
     figure = plt.figure()
     axes = plt.axes(xlim=(axes_min, axes_max), ylim=(axes_min, axes_max))
-    scatter = axes.scatter(positions[0,:], positions[1,:])
+    scatter = axes.scatter(flock.positions[0], flock.positions[1])
 
     def animate(frame):
-        update_boids(positions, velocities)
-        scatter.set_offsets(positions.transpose())
+        flock.update_boids()
+        scatter.set_offsets(flock.positions.transpose())
 
     anim = animation.FuncAnimation(figure, animate, frames=animation_params['frames'],
                                         interval=animation_params['interval'])
