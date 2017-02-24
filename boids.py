@@ -32,7 +32,6 @@ class Flock(object):
 
 		Flock.fly_middle_helper(self.positions,self.velocities,self.fly_middle_strength)
 		self.positions += self.velocities
-
 	
 	@staticmethod
 	def fly_middle_helper(positions, velocities, fly_middle_strength):
@@ -53,9 +52,6 @@ class Flock(object):
 		Flock.fly_away_helper(self.positions, self.velocities, self.nearby_distance)
 		self.positions += self.velocities
 
-
-		
-	
 	@staticmethod
 	def fly_away_helper(positions, velocities, nearby_distance):
 		"""A helper method that does the maths for fly_away"""
@@ -69,26 +65,22 @@ class Flock(object):
 		
 
 
-
 	def match_speed(self):
 		"""Try to match speed with nearby boids"""
 
 		Flock.match_speed_helper(self.positions, self.velocities, 
 						self.formation_distance, self.speed_formation_strength)
 
-	
 	@staticmethod
 	def match_speed_helper(positions, velocities, formation_distance, speed_formation_strength):
 		"""A helper method that does the maths for match speed"""
 
 		positions=np.asarray(positions)
 		velocities=np.asarray(velocities)
-
 		separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
 
 		formations_far = Flock.sum_distances(positions) > formation_distance
 		velocity_difference = velocities[:,np.newaxis,:] - velocities[:,:,np.newaxis]
-
 		velocity_if_close = Flock.far_matrix(velocity_difference,formations_far)
 		velocities -= np.mean(velocity_if_close, 1) * speed_formation_strength
 

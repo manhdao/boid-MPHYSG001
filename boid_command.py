@@ -17,7 +17,8 @@ animation_params = conf['animation_params']
 if __name__ == "__main__":
 	parser = ArgumentParser(description = 'Implement a flock of boids')
 	parser.add_argument('-n', '--number', required=False, help='Number of boids', dest='number')
-	parser.add_argument('-a', '--action', required=False, help='Specify the action', dest='action')
+	parser.add_argument('-a', '--action', required=False, dest='action',
+		help='Specify the action: fly_middle, fly_away, match_speed. Default is update_boids')
 
 	args = parser.parse_args()
 
@@ -25,8 +26,7 @@ if __name__ == "__main__":
 		#Update flock_params with new boid count
 		flock_params['boid_count'] = args.number 
 
-		if args.action:
-			simulate(animation_params, flock_params, boid_params, args.action)
+	simulate(animation_params, flock_params, boid_params, args.action)
 
 
 

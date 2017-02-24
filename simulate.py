@@ -3,7 +3,7 @@ from matplotlib import animation
 from boids import Flock
 
 
-def simulate(animation_params, flock_params, boid_params, action="update_boids"):
+def simulate(animation_params, flock_params, boid_params, action='update_boids'):
     flock = Flock(flock_params, boid_params)
     axes_min, axes_max = animation_params['axes_min'], animation_params['axes_max']
 
@@ -12,13 +12,13 @@ def simulate(animation_params, flock_params, boid_params, action="update_boids")
     scatter = axes.scatter(flock.positions[0], flock.positions[1])
 
     def animate(frame):
-        if action == "fly_middle":
+        if action == 'fly_middle':
             flock.fly_middle()
             scatter.set_offsets(flock.positions.transpose())
-        elif action == "fly_away":
+        elif action == 'fly_away':
             flock.fly_away()
             scatter.set_offsets(flock.positions.transpose())
-        elif action == "match_speed":
+        elif action == 'match_speed':
             flock.match_speed()
             scatter.set_offsets(flock.positions.transpose())
         else:
