@@ -117,7 +117,7 @@ Fixture files are used to record the initial positions and velocities, and the r
 
 In tests, the "before" records are called and pass through the helper methods again, and are compared to "after" records. The test are explicitly written for the helper functions.
 
-2 arbitrary numbers from the 2 set of array are picked out for the actual assert_equal
+2 arbitrary numbers from the 2 set of array are picked out for the actual assert_equal, for example:
 ```
 assert_equal(np.asarray(boid_data['after'])[2,5],after[2,5])
 assert_equal(np.asarray(boid_data['after'])[3,20],after[3,20])

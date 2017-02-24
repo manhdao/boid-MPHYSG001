@@ -14,7 +14,7 @@ boid_params = conf['boid_params']
 animation_params = conf['animation_params']
 
 
-if __name__ == "__main__":
+def process()
 	parser = ArgumentParser(description = 'Implement a flock of boids')
 	parser.add_argument('-n', '--number', required=False, help='Number of boids', dest='number')
 	parser.add_argument('-a', '--action', required=False, dest='action',
@@ -28,8 +28,8 @@ if __name__ == "__main__":
 
 	simulate(animation_params, flock_params, boid_params, args.action)
 
-
-
+if __name__ == "__main__":
+	process()
 
 
 
