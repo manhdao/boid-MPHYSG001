@@ -14,19 +14,15 @@ Boids is a programme that implements the formation of a flock of boids, which mo
 	* [Class Flock](#Class Flock)
 
 		* [Fly Middle](#Fly Middle)
-
 		* [Fly Away](#Fly Away)
-
 		* [Match Speed](#Match Speed)
-
 		* [Update Boids](#Update Boids)
 
 	* [Simulate](#Simulate)
 	
-2. [Output](#Output)
+3. [Output](#Output)
 
-3. [Tests](#Tests)
-
+4. [Tests](#Tests)
 
 
 <br>
@@ -78,27 +74,51 @@ There are 3 options matching 3 functions: fly_middle, fly_away, match_speed
 
 ## <a id="Objects"></a>2. Objects
 
-### <a id="Class Flock"></a>2. Class Flock
+### <a id="Class Flock"></a>Class Flock
 
-When you create a Flock instance, the initial positions and velocities of the boids are already random. In this class, many helper and @staticmethod functions are used to be able to test with fixed numbers. The test are exclusively written for those functions
+In this class, many helper and @staticmethod functions are used to be able to test with fixed numbers. The test are exclusively written for those functions
 
-#### <a id="Fly Middle"></a>2. Fly Middle
+#### <a id="Fly Middle"></a>Fly Middle
 
-Fly Middle method calculate the centroid point of the flock and move boids toward it.
+fly_middle method calculate the centroid point of the flock and move boids toward it.
 ```
 middle = np.mean(positions, 1)
 direction_to_middle = positions - middle[:,np.newaxis]
 velocities -= direction_to_middle * fly_middle_strength
 ```
 
-#### <a id="Fly Away"></a>2. Fly Away
+#### <a id="Fly Away"></a>Fly Away
 
-Fly Away method calculates distance between boids, check which ones that are too close to each other, and update their velocities beased on average differences in distances of the close ones.
+fly_away method calculates distance between boids, check which ones that are too close to each other, and update their velocities beased on average differences in distances of the close ones.
 
-#### <a id="Match Speed"></a>2. Match Speed
+#### <a id="Match Speed"></a>Match Speed
 
-Match Speed method calculates distance between boids, check which ones that are close to each other, and update their velocities beased on average differences in velocities of the close ones.
+match_speed method calculates distance between boids, check which ones that are close to each other, and update their velocities beased on average differences in velocities of the close ones.
 
-#### <a id="Update Boids"></a>2. Update Boids
+#### <a id="Update Boids"></a>Update Boids
 
-Update Boids just runs all Fly Middle, Fly Away, and Match Speed consecutively.
+update_boids just runs all Fly Middle, Fly Away, and Match Speed consecutively.
+
+### <a id="Simulate"></a>Simulate
+
+simulate function uses matplotlib.animation library to create animation.
+```
+anim = animation.FuncAnimation(figure, animate, frames=animation_params['frames'],
+                                        interval=animation_params['interval'])
+```
+
+## <a id="Output"></a>3. Output
+
+When you create a Flock instance, the initial positions and velocities of the boids are random.
+
+## <a id="Tests"></a>4. Tests
+
+Fixture files are used to record the initial positions and velocities, and the results after each individual method modifies them.
+
+In tests, the "before" records are called and pass through the methods again, and are compared to "after" records.
+
+2 arbitrary numbers from the 2 set of array are picked out for the actual assert_equal
+```
+assert_equal(np.asarray(boid_data['after'])[2,5],after[2,5])
+assert_equal(np.asarray(boid_data['after'])[3,20],after[3,20])
+```
