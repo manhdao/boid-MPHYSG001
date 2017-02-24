@@ -1,21 +1,36 @@
 # USING BOIDS
 ---------------
 
-Boids is a programme that implements the formation of a flock of boids, which moves according to 3 functions.
+Boids is a programme that implements the formation of a flock of boids, which moves according to 3 behaviors: They try to fly to the middle of the flock, they avoid collision, and they match their speed with close boids.
 
-1. [Input](#input)
+1. [Input](#Input)
 
-	* [Config](#config)
+	* [Config](#Config)
+	* [Simulate Action](#Simulate Action)
 
 
+2. [Functions](#Functions)
+
+	* [Class Flock](#Class Flock)
+		*[Fly Middle](#Fly Middle)
+		*[Fly Away](#Fly Away)
+		*[Fly Away](#Fly Away)
+		*[Match Speed](#Match Speed)
+	* [Simulate](#Simulate)
+	
+2. [Output](#Output)
+
+3. [Tests](#Tests)
 
 
 
 <br>
 
-## <a id="Input"></a>Input
+## <a id="Input"></a>1. Input
 
-Parameters are already set in config.yaml
+### <a id="Config"></a>Config
+
+Parameters to create a flock of boids are already set in config.yaml
 
 ```
 boid_params:
@@ -40,8 +55,23 @@ animation_params:
     interval: 50
 ```
 
+Number of boids can be changed directly in the command, with "-n" option:
+```
+python boid_command.py -n 15
+```
+Besides the number of boids, other parameters can only be changed by editing config.yaml, or calling config in a dict and modify it.
 
-## Class Flock
 
-* 
+### <a id="Simuate Action"></a>Simuate Action
+
+Action of the flock can be changed directly in the command, with "-a" option:
+```
+python boid_command.py -a fly_middle
+```
+There are 3 options matching 3 functions: fly_middle, fly_away, match_speed
+
+
+## <a id="Functions"></a>2. Functions
+
+When you create a Flock instance, the initial positions and velocities of the boids are already random. In this class, many helper and @staticmethod functions are used to be able to test with fixed numbers. The test are exclusively written for those functions
 
