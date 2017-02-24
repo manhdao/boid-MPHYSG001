@@ -20,9 +20,9 @@ class Flock(object):
 		upper_vel_limit = np.array([boid_params['max_x_velocity'],boid_params['max_y_velocity']])
 
 		self.positions = lower_pos_limit[:,np.newaxis] + \
-		np.random.rand(2, self.boid_count)*(upper_pos_limit - lower_pos_limit)[:,np.newaxis]
+		np.random.rand(2, int(self.boid_count))*(upper_pos_limit - lower_pos_limit)[:,np.newaxis]
 		self.velocities = lower_vel_limit[:,np.newaxis] + \
-		np.random.rand(2, self.boid_count)*(upper_vel_limit - lower_vel_limit)[:,np.newaxis]
+		np.random.rand(2, int(self.boid_count))*(upper_vel_limit - lower_vel_limit)[:,np.newaxis]
 
 
 	"""I define helper functions so that Flock can call fly_middle or fly_away if need to"""
@@ -30,11 +30,14 @@ class Flock(object):
 	def fly_middle(self):
 		"""Fly towards the middle"""
 
-		fly_middle_helper(self.positions,self.velocities,self.fly_middle_strength)
+		Flock.fly_middle_helper(self.positions,self.velocities,self.fly_middle_strength)
+		self.positions += self.velocities
 
 	
 	@staticmethod
 	def fly_middle_helper(positions, velocities, fly_middle_strength):
+		"""A helper method that does the maths for fly_middle"""
+
 		positions=np.asarray(positions)
 		velocities=np.asarray(velocities)
 
@@ -47,50 +50,46 @@ class Flock(object):
 	def fly_away(self):
 		"""Fly away from nearby boids"""
 
-		fly_away_helper(self.positions, self.velocities, self.nearby_distance)
+		Flock.fly_away_helper(self.positions, self.velocities, self.nearby_distance)
+		self.positions += self.velocities
 
+
+		
 	
 	@staticmethod
 	def fly_away_helper(positions, velocities, nearby_distance):
+		"""A helper method that does the maths for fly_away"""
+
 		positions=np.asarray(positions)
 		velocities=np.asarray(velocities)
-
 		separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
-		distances = separations * separations
-		sum_distances = np.sum(distances, 0)
 
-		far_away = sum_distances > nearby_distance
-		separations_if_close = np.copy(separations)
-		separations_if_close[0,:,:][far_away]= 0
-		separations_if_close[1,:,:][far_away]= 0
-
-		velocities += np.sum(separations_if_close,1)
+		far_away = Flock.sum_distances(positions) > nearby_distance
+		velocities += np.sum(Flock.far_matrix(separations,far_away),1)
+		
 
 
 
 	def match_speed(self):
 		"""Try to match speed with nearby boids"""
 
-		match_speed_helper(self.positions, self.velocities, 
+		Flock.match_speed_helper(self.positions, self.velocities, 
 						self.formation_distance, self.speed_formation_strength)
 
 	
 	@staticmethod
 	def match_speed_helper(positions, velocities, formation_distance, speed_formation_strength):
+		"""A helper method that does the maths for match speed"""
+
 		positions=np.asarray(positions)
 		velocities=np.asarray(velocities)
 
 		separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
-		distances = separations * separations
-		sum_distances = np.sum(distances, 0)
 
-		formations_far = sum_distances > formation_distance
+		formations_far = Flock.sum_distances(positions) > formation_distance
 		velocity_difference = velocities[:,np.newaxis,:] - velocities[:,:,np.newaxis]
 
-		velocity_if_close = np.copy(velocity_difference)
-		velocity_if_close[0,:,:][formations_far]= 0
-		velocity_if_close[1,:,:][formations_far]= 0
-
+		velocity_if_close = Flock.far_matrix(velocity_difference,formations_far)
 		velocities -= np.mean(velocity_if_close, 1) * speed_formation_strength
 
 		positions += velocities
@@ -111,6 +110,23 @@ class Flock(object):
 		Flock.match_speed_helper(positions, velocities, formation_distance, speed_formation_strength)
 
 
+	"""Combine similar mathematical operations into functions"""
+
+	@staticmethod
+	def sum_distances(pos):
+		pos = np.asarray(pos)
+
+		separations = pos[:,np.newaxis,:] - pos[:,:,np.newaxis]
+		distances = separations * separations
+		sum_distances = np.sum(distances, 0)
+		return sum_distances
+
+	@staticmethod
+	def far_matrix(sep,far):
+		sep_if_close = np.copy(sep)
+		sep_if_close[0,:,:][far]= 0
+		sep_if_close[1,:,:][far]= 0
+		return sep_if_close
 		
 
     

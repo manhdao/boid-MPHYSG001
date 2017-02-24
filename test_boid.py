@@ -1,4 +1,4 @@
-from boids import Flock
+from .boids import Flock
 from nose.tools import assert_equal, assert_true
 import os
 import numpy as np
