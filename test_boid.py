@@ -9,10 +9,61 @@ def test_update_boids():
 	#Test the update_boids function
     boid_data=yaml.load(open(
         os.path.join(os.path.dirname(__file__),
-        'update_boid_fixture.yaml')))
+        'fixture\\update_boid_fixture.yaml')))
     before=np.asarray(boid_data['before'])
     pos = before[0:2,:]
     vel = before[2:4,:]
     bs.update_boids(pos,vel)
     after = np.concatenate((pos, vel),axis=0)
-    assert_equal(np.asarray(boid_data['after'][3,8]),after[3,8])
+
+    #Test 2 particular numbers in the 2 arrays
+    assert_equal(np.asarray(boid_data['after'])[3,8],after[3,8])
+    assert_equal(np.asarray(boid_data['after'])[0,6],after[0,6])
+
+
+def test_fly_middle():
+	#Test the fly_middle function
+	boid_data=yaml.load(open(
+        os.path.join(os.path.dirname(__file__),
+        'fixture\\fly_middle_fixture.yaml')))
+	before=np.asarray(boid_data['before'])
+	pos = before[0:2,:]
+	vel = before[2:4,:]
+	bs.fly_middle(pos,vel)
+	after = np.concatenate((pos, vel),axis=0)
+
+	#Test 2 particular numbers in the 2 velocity arrays
+	assert_equal(np.asarray(boid_data['after'])[2,5],after[2,5])
+	assert_equal(np.asarray(boid_data['after'])[3,20],after[3,20])
+
+
+def test_fly_away():
+	#Test the fly_away function
+	boid_data=yaml.load(open(
+        os.path.join(os.path.dirname(__file__),
+        'fixture\\fly_away_fixture.yaml')))
+	before=np.asarray(boid_data['before'])
+	pos = before[0:2,:]
+	vel = before[2:4,:]
+	bs.fly_away(pos,vel)
+	after = np.concatenate((pos, vel),axis=0)
+
+	#Test 2 particular numbers in the 2 velocity arrays
+	assert_equal(np.asarray(boid_data['after'])[2,28],after[2,28])
+	assert_equal(np.asarray(boid_data['after'])[2,3],after[2,3])
+
+
+def test_match_speed():
+	#Test the match_speed function
+	boid_data=yaml.load(open(
+        os.path.join(os.path.dirname(__file__),
+        'fixture\\match_speed_fixture.yaml')))
+	before=np.asarray(boid_data['before'])
+	pos = before[0:2,:]
+	vel = before[2:4,:]
+	bs.match_speed(pos,vel)
+	after = np.concatenate((pos, vel),axis=0)
+
+	#Test 2 particular numbers in the 2 arrays
+	assert_equal(np.asarray(boid_data['after'])[3,25],after[3,25])
+	assert_equal(np.asarray(boid_data['after'])[0,7],after[0,7])

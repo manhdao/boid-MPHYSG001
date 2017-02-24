@@ -18,6 +18,8 @@ formation_distance = flock_params['formation_distance']
 speed_formation_strength = flock_params['speed_formation_strength']
 
 
+
+
 def fly_middle(positions, velocities):
 	positions=np.asarray(positions)
 	velocities=np.asarray(velocities)
