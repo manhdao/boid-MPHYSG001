@@ -9,13 +9,18 @@ Boids is a programme that implements the formation of a flock of boids, which mo
 	* [Simulate Action](#Simulate Action)
 
 
-2. [Functions](#Functions)
+2. [Objects](#Objects)
 
 	* [Class Flock](#Class Flock)
-		*[Fly Middle](#Fly Middle)
-		*[Fly Away](#Fly Away)
-		*[Fly Away](#Fly Away)
-		*[Match Speed](#Match Speed)
+
+		* [Fly Middle](#Fly Middle)
+
+		* [Fly Away](#Fly Away)
+
+		* [Match Speed](#Match Speed)
+
+		* [Update Boids](#Update Boids)
+
 	* [Simulate](#Simulate)
 	
 2. [Output](#Output)
@@ -62,7 +67,7 @@ python boid_command.py -n 15
 Besides the number of boids, other parameters can only be changed by editing config.yaml, or calling config in a dict and modify it.
 
 
-### <a id="Simuate Action"></a>Simuate Action
+### <a id="Simulate Action"></a>Simulate Action
 
 Action of the flock can be changed directly in the command, with "-a" option:
 ```
@@ -71,7 +76,29 @@ python boid_command.py -a fly_middle
 There are 3 options matching 3 functions: fly_middle, fly_away, match_speed
 
 
-## <a id="Functions"></a>2. Functions
+## <a id="Objects"></a>2. Objects
+
+### <a id="Class Flock"></a>2. Class Flock
 
 When you create a Flock instance, the initial positions and velocities of the boids are already random. In this class, many helper and @staticmethod functions are used to be able to test with fixed numbers. The test are exclusively written for those functions
 
+#### <a id="Fly Middle"></a>2. Fly Middle
+
+Fly Middle method calculate the centroid point of the flock and move boids toward it.
+```
+middle = np.mean(positions, 1)
+direction_to_middle = positions - middle[:,np.newaxis]
+velocities -= direction_to_middle * fly_middle_strength
+```
+
+#### <a id="Fly Away"></a>2. Fly Away
+
+Fly Away method calculates distance between boids, check which ones that are too close to each other, and update their velocities beased on average differences in distances of the close ones.
+
+#### <a id="Match Speed"></a>2. Match Speed
+
+Match Speed method calculates distance between boids, check which ones that are close to each other, and update their velocities beased on average differences in velocities of the close ones.
+
+#### <a id="Update Boids"></a>2. Update Boids
+
+Update Boids just runs all Fly Middle, Fly Away, and Match Speed consecutively.
